@@ -1,21 +1,20 @@
-pipeline{
-    agent any
-    stages {
-        stage('build') {
-            steps {
-                script{
-                    echo "Build stage in progress"
-                }
-            }
+node{
+    git branch: 'main' , url: 'https://github.com/maheraudee/simple-java-app.git'
+    stage('Build'){
+        try{
+            sh'echo "Building image stage"'
         }
-
-        stage('test') {
-            steps {
-                script{
-                    echo "Test stage in progress"
-                }
-            }
+        catch(Exception e){
+            sh'esho "Exception found "'
+            throw e
+        }
+    }
+    stage('test'){
+        if (env.BRANCH_NAME == "feature"){
+            sh'echo "test stage"'
+        }
+        else {
+            sh'echo "skip test stage"'
         }
     }
 }
-
